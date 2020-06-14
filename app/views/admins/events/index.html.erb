@@ -1,0 +1,75 @@
+<div class="card border-0">
+  <div class="card-body">
+    <h5 class="card-title mb-3">
+      Events of <%= @user.name %>
+      <%= link_to "Add New", new_admins_user_event_path(@user), class: "btn btn-primary float-right" %>
+    </h5>
+    <%= form_tag admins_user_events_path(@user), method: :get, class: 'form-inline mb-3' do %>
+      <div class="form-group mx-sm-3 mb-2">
+        <%= text_field_tag :daterange, "#{@start_date.strftime("%d/%m/%Y")} - #{@end_date.strftime("%d/%m/%Y")}", class: "form-control" %>
+      </div>
+      <button type="submit" class="btn btn-primary mb-2">Search</button>
+    <% end %>
+    <div class="card-text">
+      <% @presenter.time_sheet.each do |key, value| %>
+        <div class='border p-3'>
+          <span class="font-weight-bold <%= 'text-danger' if value[:error] %>">Date: <%= key %></span>
+          <div class="row mt-3">
+            <div class="col-6">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>Check in Time</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% value[:check_ins].each do |check_in| %>
+                    <tr>
+                      <td><%= check_in.occurred_at %></td>
+                      <td>
+                        <%= link_to "Edit", edit_admins_user_event_path(@user, check_in) %>
+                        <%= link_to "Delete", admins_user_event_path(@user, check_in), method: :delete %>
+                      </td>
+                    </tr>
+                  <% end %>
+                </tbody>
+              </table>
+            </div>
+            <div class="col-6">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>Check out Time</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% value[:check_outs].each do |check_out| %>
+                    <tr>
+                      <td><%= check_out.occurred_at %></td>
+                      <td>
+                        <%= link_to "Edit", edit_admins_user_event_path(@user, check_out) %>
+                        <%= link_to "Delete", admins_user_event_path(@user, check_out), method: :delete %>
+                      </td>
+                    </tr>
+                  <% end %>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<script>
+  $(function() {
+    $('input[name="daterange"]').daterangepicker({
+      locale: {
+        format: 'DD/MM/YYYY'
+      }
+    });
+  });
+</script>

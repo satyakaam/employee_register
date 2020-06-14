@@ -1,0 +1,40 @@
+<h5 class="mb-5">Add new event</h5>
+<% if @event.errors.any? %>
+  <div class="text-danger">
+    <h2><%= pluralize(@event.errors.count, "error") %> prohibited this event from being saved:</h2>
+    <ul>
+      <% @event.errors.full_messages.each do |msg| %>
+        <li> * <%= msg %></li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>
+<%= form_for @event, url: admins_user_events_path(@user), html: { class: "form-horizontal center" } do |f| %>
+  <div class="form-group">
+    <%= f.label :occurred_at, class: "control-label" %>
+    <%= f.text_field :occurred_at, class: "form-control" %>
+  </div>
+  <div class="form-group">
+    <% Event.event_types.each do |key, value| %>
+      <div class="form-check form-check-inline">
+        <%= f.radio_button :event_type, key, checked: true, class: "form-check-input" %>
+        <%= f.label :event_type, value, class: "form-check-label" %>
+      </div>
+    <% end %>
+  </div>
+
+  <%= f.submit "Submit", class: "btn btn-default btn-primary" %>  
+<% end %>
+
+<script>
+  $(function() {
+    $('#event_occurred_at').daterangepicker({
+      singleDatePicker: true,
+      timePicker: true,
+      showDropdowns: true,
+      locale: {
+        format: 'DD/MM/YYYY hh:mm A'
+      }
+    });
+  });
+  </script>

@@ -1,0 +1,76 @@
+<!-- <%= form_tag root_path, method: :get do %>
+  <%= date_select("start", default: Time.current) %>
+  <%= date_select("end", default: Time.current.beginning_of_week) %>
+  <%= submit_tag "Search" %>
+<% end %> -->
+
+<% flash.each do |type, msg| %>
+  <div class="alert alert-info">
+    <%= msg %>
+  </div>
+<% end %>
+<div class="card border-0">
+  <div class="card-body">
+    <h5 class="card-title mb-5">
+      Events
+      <%= button_to current_user.checked_in? ? "Check Out" : "Check In", events_path, class: "btn btn-primary float-right" %>
+    </h5>
+    <%= form_tag events_path, method: :get, class: 'form-inline mb-3' do %>
+      <div class="form-group mx-sm-3 mb-2">
+        <%= text_field_tag :daterange, "#{@start_date.strftime("%d/%m/%Y")} - #{@end_date.strftime("%d/%m/%Y")}", class: "form-control" %>
+      </div>
+      <button type="submit" class="btn btn-primary mb-2">Search</button>
+    <% end %>
+    <div class="card-text">
+      <% @presenter.time_sheet.each do |key, value| %>
+        <div class='border p-3'>
+          <span class="font-weight-bold <%= 'text-danger' if value[:error] %>">Date: <%= key %></span>
+          <div class="row mt-3">
+            <div class="col-6">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>Check in</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% value[:check_ins].each do |check_in| %>
+                    <tr>
+                      <td><%= check_in.occurred_at %></td>
+                    </tr>
+                  <% end %>
+                </tbody>
+              </table>
+            </div>
+            <div class="col-6">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>Check out</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% value[:check_outs].each do |check_out| %>
+                    <tr>
+                      <td><%= check_out.occurred_at %></td>
+                    </tr>
+                  <% end %>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<script>
+  $(function() {
+    $('input[name="daterange"]').daterangepicker({
+      locale: {
+        format: 'DD/MM/YYYY'
+      }
+    });
+  });
+</script>

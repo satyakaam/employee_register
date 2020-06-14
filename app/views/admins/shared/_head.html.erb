@@ -1,0 +1,12 @@
+<nav class="navbar navbar-light bg-light">
+  <div class="container">
+    <% if current_user.present? %>
+      <%= link_to current_user.name, admins_users_path, class: "navbar-brand" %>
+      <%= link_to('Users', admins_users_path) %>
+      <%= link_to('Check In/Out', root_path) %>
+      <%= link_to('Logout', destroy_user_session_path, method: :delete) %>
+    <% else %>
+      <%= link_to "Employee Register", admins_users_path, class: "navbar-brand" %>
+    <% end %>
+  </div>
+</nav>
