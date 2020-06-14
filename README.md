@@ -51,6 +51,27 @@ rspec
 ```shell
 rails s
 ```
+
+## Heroku
+```shell
+https://employee-register-himama.herokuapp.com/
+```
+
+### Here are some pre created users' login details.
+```shell
+Users
+email: 'satya@example', password: 'changeme'
+email: 'mona@example', password: 'changeme'
+email: 'josh@example', password: 'changeme'
+email: 'jack@example', password: 'changeme'
+email: 'lee@example', password: 'changeme'
+
+Admin
+email: 'admin@example', password: 'changeme'
+
+```
+
+
 ## How did you approach this challenge?
 
 To solve the given problem I have implemented the following features based on my understanding and some assumptions. 
